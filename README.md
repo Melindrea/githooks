@@ -122,4 +122,4 @@ CWD is set to the top level of the working tree in all of the following hooks.
     node .git/hooks/post-merge [0|1]
     GIT_PREFIX: '',
     GIT_DIR: '.git',
-    GIT_REFLOG_ACTION: 'merge master'
+    GIT_REFLOG_ACTION: 'merge [branch]'
