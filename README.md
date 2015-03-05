@@ -11,6 +11,8 @@ information is [Atlassian's githooks tutorial](https://www.atlassian.com/git/tut
 As I have never used `git am`, the hooks explored do not include `applypatch-msg`,
 `pre-applypatch` or `post-apply-patch`.
 
+In all the files `__dirname` returns (unsurprisingly) `.git/hooks`.
+
 ## git commit
 CWD is set to the top level of the working tree in all of the following hooks.
 
@@ -78,3 +80,21 @@ CWD is set to the top level of the working tree in all of the following hooks.
     GIT_AUTHOR_DATE: '@1425539426 +0100',
     GIT_INDEX_FILE: '.git/index',
     GIT_EDITOR: ':'
+
+## git checkout or git clone
+CWD is set to the top level of the working tree in all of the following hooks.
+
+That this runs on `git clone` is less relevant in most cases, as it's a
+user-level hook.
+
+### post-checkout
+* Timing: after worktree is changed
+* Parameters
+    * Previous HEAD ref
+    * New HEAD ref
+    * Type flag: 0 for file checkout, 1 for branch checkout
+* Note: Since this is after the action, `process.exit(1);` does not stop the checkout or cloning.
+
+    node .git/hooks/post-checkout [SHA1 hash] [SHA1 hash] [0|1]
+    GIT_PREFIX: '',
+    GIT_DIR: '.git'
