@@ -1,4 +1,4 @@
-# Parameters & environment for githooks
+# Githooks
 
 In most cases, the action will be cancelled if you exit the process with
 non-zero, `process.exit(1);`.
@@ -59,6 +59,12 @@ GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
 
+#### Usage suggestions
+
+    * Test
+    * Lint
+    * Check that prior commit is not a WIP
+
 ### prepare-commit-msg
 * Timing: after default message generated, before invoking editor
 * Parameters
@@ -81,6 +87,9 @@ GIT_AUTHOR_DATE: '@1425539426 +0100',
 GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
+#### Usage suggestions
+
+    * Add issue #
 
 ### commit-msg
 * Timing: inspect, edit, and format the message
@@ -97,6 +106,9 @@ GIT_AUTHOR_DATE: '@1425539426 +0100',
 GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
+#### Usage suggestions
+
+    * Check that commit message follows rules
 
 ### post-commit
 * Timing: after commit finished
@@ -115,6 +127,45 @@ GIT_AUTHOR_DATE: '@1425539426 +0100',
 GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
+
+#### Usage suggestions
+
+    * Notify someone
+
+### post-rewrite
+* Timing: after rewriting action (`git commit --amend` or `git rebase`)
+* Parameters
+    * Type: amend if `--amend`,
+* Note: Since this is after the action, `process.exit(1);` does not stop the rewrite
+* STDIN gets refs: [old sha1] [new sha1]
+
+```
+node .git/hooks/post-rewrite
+GIT_PREFIX: '',
+GIT_DIR: '.git',
+GIT_AUTHOR_NAME: 'Marie Hogebrandt',
+GIT_AUTHOR_EMAIL: 'marie@pineberry.com',
+GIT_AUTHOR_DATE: '@1425560809 +0100'
+```
+
+#### Usage suggestions
+
+    * Notify someone
+
+## git gc --auto
+
+### pre-auto-gc
+* Timing: before automatic garbage collection
+* Parameters: unknown (doesn't trigger automatically)
+
+```
+node .git/hooks/pre-auto-gc
+```
+
+#### Usage suggestions
+
+    * Notify someone
+    * Abort collection
 
 ## git checkout or git clone
 CWD is set to the top level of the working tree in all of the following hooks.
@@ -135,6 +186,13 @@ node .git/hooks/post-checkout [SHA1 hash] [SHA1 hash] [0|1]
 GIT_PREFIX: '',
 GIT_DIR: '.git'
 ```
+#### Usage suggestions
+
+    * Delete generated files
+    * Update dependencies
+    * Alter working directory depending on branch
+    * Copy in binaries
+    * Auto-generate documentation
 
 ## git rebase
 CWD is set to the top level of the working tree in all of the following hooks.
@@ -150,6 +208,10 @@ node .git/hooks/post-checkout master test
 GIT_REFLOG_ACTION: 'rebase'
 ```
 
+#### Usage suggestions
+
+    * Ensure that rebasing isn't a bad idea
+
 ## git merge or git pull
 CWD is set to the top level of the working tree in all of the following hooks.
 
@@ -164,6 +226,9 @@ GIT_PREFIX: '',
 GIT_DIR: '.git',
 GIT_REFLOG_ACTION: '[merge [branch]|pull]'
 ```
+#### Usage suggestions
+
+    * Similar to post-checkout in usage
 
 ## git push
 CWD is set to the top level of the working tree in pre-push, however all
@@ -187,6 +252,7 @@ GIT_PREFIX: ''
 * Parameters: none
 * Note: Server-side
 * STDIN gets refs: [remote sha1] [local sha1] [local ref] (1 line/ref)
+* Error: ! [remote rejected] test -> test (pre-receive hook declined)
 
 ```
 node .git/hooks/pre-receive
@@ -200,9 +266,10 @@ GIT_DIR: '.'
     * Remote sha1
     * Local sha1
 * Note: Server-side. `process.exit(1);` will stop only that specific ref from being pushed
+* Error: ! [remote rejected] test -> test (hook declined)
 
 ```
-node .git/hooks/update
+node .git/hooks/update refs/heads/test f3d7c49c850f9ad7559d41432496556b53599e50 b7cf9aeb4ce372c497dd0fe6057c06739a9d5bd8
 GIT_DIR: '.'
 ```
 
