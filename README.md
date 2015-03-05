@@ -123,3 +123,49 @@ CWD is set to the top level of the working tree in all of the following hooks.
     GIT_PREFIX: '',
     GIT_DIR: '.git',
     GIT_REFLOG_ACTION: '[merge [branch]|pull]'
+
+## git push
+CWD is set to the top level of the working tree in all of the following hooks.
+
+### pre-push
+* Timing: before pushing
+* Parameters
+    * Name of remote
+    * Url to which the push is being done
+* STDIN gets <local ref> <local sha1> <remote ref> <remote sha1>
+
+    node .git/hooks/pre-push origin git@something:etc
+
+### pre-receive
+* Timing: before the first ref is updated
+* Parameters: none
+* Note: Server-side
+* STDIN gets refs
+
+    node .git/hooks/pre-receive
+
+### update
+* Timing: before each ref is updated (so, 2 branches means it's called twice)
+* Parameters
+    * Ref name
+    * Old object name
+    * New object name
+* Note: Server-side, failure will stop only that specific branch from being pushed
+
+    node .git/hooks/update
+
+### post-receive
+* Timing: after the last ref is updated
+* Parameters: none
+* Note: Server-side, failure will not stop the push
+* STDIN gets refs
+
+    node .git/hooks/post-receive
+
+### post-update
+* Timing: after the last ref is updated
+* Parameters
+    * Ref names that were updated
+* Note: Server-side, failure will not stop the push
+
+    node .git/hooks/post-update refs
