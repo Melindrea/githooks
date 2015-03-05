@@ -117,8 +117,9 @@ CWD is set to the top level of the working tree in all of the following hooks.
 ### post-merge
 * Timing: after successful merge completed
 * Parameters
-    * Upstream branch name
-    * Rebased branch name (empty if current branch)
+    * Is squash (0 or 1)
 
-    node .git/hooks/post-checkout master test
-    GIT_REFLOG_ACTION: 'rebase'
+    node .git/hooks/post-merge [0|1]
+    GIT_PREFIX: '',
+    GIT_DIR: '.git',
+    GIT_REFLOG_ACTION: 'merge master'
