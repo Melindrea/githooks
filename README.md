@@ -134,7 +134,7 @@ is returned to the local script with "remote: " prepending every row.
 * Parameters
     * Name of remote
     * Url to which the push is being done
-* STDIN gets <local ref> <local sha1> <remote ref> <remote sha1>
+* STDIN gets <local ref> <local sha1> <remote ref> <remote sha1> (1 line/ref)
 
     node .git/hooks/pre-push origin git@something:etc
     GIT_PREFIX: ''
@@ -143,7 +143,7 @@ is returned to the local script with "remote: " prepending every row.
 * Timing: before the first ref is updated
 * Parameters: none
 * Note: Server-side, CWD = `.git`
-* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/ref)
+* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1 line/ref)
 
     node .git/hooks/pre-receive
     GIT_DIR: '.'
@@ -163,7 +163,7 @@ is returned to the local script with "remote: " prepending every row.
 * Timing: after the last ref is updated
 * Parameters: none
 * Note: Server-side, failure will not stop the push, CWD = `.git`
-* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/ref)
+* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1 line/ref)
 
     node .git/hooks/post-receive
     GIT_DIR: '.'
