@@ -21,5 +21,4 @@ console.log(gitObject);
 
 rl.on('line', function (cmd) {
   console.log('STIDIN: ' + cmd);
-  rl.close();
 });
