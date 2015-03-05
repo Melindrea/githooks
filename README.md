@@ -144,18 +144,18 @@ is returned to the local script with "remote: " prepending every row.
 * Timing: before the first ref is updated
 * Parameters: none
 * Note: Server-side, CWD = `.git`
-* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/branch)
+* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/ref)
 
     node .git/hooks/pre-receive
     GIT_DIR: '.'
 
 ### update
-* Timing: before each ref is updated (so, 2 branches means it's called twice)
+* Timing: before each ref is updated (so, 2 branches or tags means it's called twice)
 * Parameters
     * <local ref>
     * <remote sha1>
     * <local sha1>
-* Note: Server-side, failure will stop only that specific branch from being pushed, CWD = `.git`
+* Note: Server-side, failure will stop only that specific ref from being pushed, CWD = `.git`
 
     node .git/hooks/update
     GIT_DIR: '.'
@@ -164,7 +164,7 @@ is returned to the local script with "remote: " prepending every row.
 * Timing: after the last ref is updated
 * Parameters: none
 * Note: Server-side, failure will not stop the push, CWD = `.git`
-* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/branch)
+* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/ref)
 
     node .git/hooks/post-receive
     GIT_DIR: '.'
