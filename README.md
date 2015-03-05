@@ -175,5 +175,5 @@ is returned to the local script with "remote: " prepending every row.
     * Ref names that were updated
 * Note: Server-side, failure will not stop the push, CWD = `.git`
 
-    node .git/hooks/post-update refs (array)
+    node .git/hooks/post-update refs_1 ref_2
     GIT_DIR: '.'
