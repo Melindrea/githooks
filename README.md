@@ -135,14 +135,16 @@ CWD is set to the top level of the working tree in all of the following hooks.
 * STDIN gets <local ref> <local sha1> <remote ref> <remote sha1>
 
     node .git/hooks/pre-push origin git@something:etc
+    GIT_PREFIX: ''
 
 ### pre-receive
 * Timing: before the first ref is updated
 * Parameters: none
-* Note: Server-side
-* STDIN gets refs
+* Note: Server-side, CWD = `.git`
+* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/branch)
 
     node .git/hooks/pre-receive
+    GIT_DIR: '.'
 
 ### update
 * Timing: before each ref is updated (so, 2 branches means it's called twice)
@@ -150,22 +152,25 @@ CWD is set to the top level of the working tree in all of the following hooks.
     * Ref name
     * Old object name
     * New object name
-* Note: Server-side, failure will stop only that specific branch from being pushed
+* Note: Server-side, failure will stop only that specific branch from being pushed, CWD = `.git`
 
     node .git/hooks/update
+    GIT_DIR: '.'
 
 ### post-receive
 * Timing: after the last ref is updated
 * Parameters: none
-* Note: Server-side, failure will not stop the push
-* STDIN gets refs
+* Note: Server-side, failure will not stop the push, CWD = `.git`
+* STDIN gets refs: <remote sha1> <local sha1> <local ref> (1/branch)
 
     node .git/hooks/post-receive
+    GIT_DIR: '.'
 
 ### post-update
 * Timing: after the last ref is updated
 * Parameters
     * Ref names that were updated
-* Note: Server-side, failure will not stop the push
+* Note: Server-side, failure will not stop the push, CWD = `.git`
 
-    node .git/hooks/post-update refs
+    node .git/hooks/post-update refs (array)
+    GIT_DIR: '.'
