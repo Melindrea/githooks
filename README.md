@@ -127,6 +127,9 @@ CWD is set to the top level of the working tree in all of the following hooks.
 ## git push
 CWD is set to the top level of the working tree in all of the following hooks.
 
+All server-side scripts have CWD = `.git`. Anything printed to the terminal
+is returned to the local script with "remote: " prepending every row.
+
 ### pre-push
 * Timing: before pushing
 * Parameters
@@ -149,9 +152,9 @@ CWD is set to the top level of the working tree in all of the following hooks.
 ### update
 * Timing: before each ref is updated (so, 2 branches means it's called twice)
 * Parameters
-    * Ref name
-    * Old object name
-    * New object name
+    * <local ref>
+    * <remote sha1>
+    * <local sha1>
 * Note: Server-side, failure will stop only that specific branch from being pushed, CWD = `.git`
 
     node .git/hooks/update
