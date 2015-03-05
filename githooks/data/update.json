@@ -1,0 +1,22 @@
+[
+    {
+        "file": "package.json",
+        "command": "npm update"
+    },
+    {
+        "file": "bower.json",
+        "command": "bower update && grunt build"
+    },
+    {
+        "file": "Gruntfile.js",
+        "command": "grunt githooks"
+    },
+    {
+        "file": "composer.lock",
+        "command": "php composer.phar dump-autoload; php composer.phar update"
+    },
+    {
+        "file": "Gemfile.lock",
+        "command": "bundle install"
+    }
+]
