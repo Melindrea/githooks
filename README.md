@@ -125,9 +125,8 @@ CWD is set to the top level of the working tree in all of the following hooks.
     GIT_REFLOG_ACTION: '[merge [branch]|pull]'
 
 ## git push
-CWD is set to the top level of the working tree in all of the following hooks.
-
-All server-side scripts have CWD = `.git`. Anything printed to the terminal
+CWD is set to the top level of the working tree in pre-push, however all
+server-side scripts have CWD = `.git`. Anything printed to the terminal
 is returned to the local script with "remote: " prepending every row.
 
 ### pre-push
