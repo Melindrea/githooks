@@ -98,3 +98,27 @@ user-level hook.
     node .git/hooks/post-checkout [SHA1 hash] [SHA1 hash] [0|1]
     GIT_PREFIX: '',
     GIT_DIR: '.git'
+
+## git rebase
+CWD is set to the top level of the working tree in all of the following hooks.
+
+### pre-rebase
+* Timing: before rebase
+* Parameters
+    * Upstream branch name
+    * Rebased branch name (empty if current branch)
+
+    node .git/hooks/post-checkout master test
+    GIT_REFLOG_ACTION: 'rebase'
+
+## git merge or git pull
+CWD is set to the top level of the working tree in all of the following hooks.
+
+### post-merge
+* Timing: after successful merge completed
+* Parameters
+    * Upstream branch name
+    * Rebased branch name (empty if current branch)
+
+    node .git/hooks/post-checkout master test
+    GIT_REFLOG_ACTION: 'rebase'
