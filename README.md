@@ -187,6 +187,7 @@ GIT_PREFIX: ''
 * Parameters: none
 * Note: Server-side
 * STDIN gets refs: [remote sha1] [local sha1] [local ref] (1 line/ref)
+* Error: ! [remote rejected] test -> test (pre-receive hook declined)
 
 ```
 node .git/hooks/pre-receive
@@ -200,9 +201,10 @@ GIT_DIR: '.'
     * Remote sha1
     * Local sha1
 * Note: Server-side. `process.exit(1);` will stop only that specific ref from being pushed
+* Error: ! [remote rejected] test -> test (hook declined)
 
 ```
-node .git/hooks/update
+node .git/hooks/update refs/heads/test f3d7c49c850f9ad7559d41432496556b53599e50 b7cf9aeb4ce372c497dd0fe6057c06739a9d5bd8
 GIT_DIR: '.'
 ```
 
