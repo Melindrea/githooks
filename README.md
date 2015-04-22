@@ -1,4 +1,4 @@
-# Parameters & environment for githooks
+# Githooks
 
 In most cases, the action will be cancelled if you exit the process with
 non-zero, `process.exit(1);`.
@@ -59,6 +59,12 @@ GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
 
+#### Usage suggestions
+
+    * Test
+    * Lint
+    * Check that prior commit is not a WIP
+
 ### prepare-commit-msg
 * Timing: after default message generated, before invoking editor
 * Parameters
@@ -81,6 +87,9 @@ GIT_AUTHOR_DATE: '@1425539426 +0100',
 GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
+#### Usage suggestions
+
+    * Add issue #
 
 ### commit-msg
 * Timing: inspect, edit, and format the message
@@ -97,6 +106,9 @@ GIT_AUTHOR_DATE: '@1425539426 +0100',
 GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
+#### Usage suggestions
+
+    * Check that commit message follows rules
 
 ### post-commit
 * Timing: after commit finished
@@ -115,6 +127,46 @@ GIT_AUTHOR_DATE: '@1425539426 +0100',
 GIT_INDEX_FILE: '.git/index',
 GIT_EDITOR: ':'
 ```
+
+#### Usage suggestions
+
+    * Notify someone
+
+### post-rewrite
+* Timing: after rewriting action (`git commit --amend` or `git rebase`)
+* Parameters
+    * Type: amend if `git commit --amend`, rebase if `git rebase`
+* Note: Since this is after the action, `process.exit(1);` does not stop the rewrite
+* STDIN gets refs: [old sha1] [new sha1]
+
+```
+node .git/hooks/post-rewrite [amend|rebase]
+GIT_PREFIX: '', (if amend)
+GIT_DIR: '.git', (if amend)
+GIT_AUTHOR_NAME: 'Marie Hogebrandt',
+GIT_AUTHOR_EMAIL: 'marie@pineberry.com',
+GIT_AUTHOR_DATE: '@1425560809 +0100',
+GIT_REFLOG_ACTION: 'rebase' (if rebase)
+```
+
+#### Usage suggestions
+
+    * Similar to post-checkout and post-merge
+
+## git gc --auto
+
+### pre-auto-gc
+* Timing: before automatic garbage collection
+* Parameters: unknown (doesn't trigger automatically)
+
+```
+node .git/hooks/pre-auto-gc
+```
+
+#### Usage suggestions
+
+    * Notify someone
+    * Abort collection
 
 ## git checkout or git clone
 CWD is set to the top level of the working tree in all of the following hooks.
@@ -135,6 +187,13 @@ node .git/hooks/post-checkout [SHA1 hash] [SHA1 hash] [0|1]
 GIT_PREFIX: '',
 GIT_DIR: '.git'
 ```
+#### Usage suggestions
+
+    * Delete generated files
+    * Update dependencies
+    * Alter working directory depending on branch
+    * Copy in binaries
+    * Auto-generate documentation
 
 ## git rebase
 CWD is set to the top level of the working tree in all of the following hooks.
@@ -150,6 +209,10 @@ node .git/hooks/post-checkout master test
 GIT_REFLOG_ACTION: 'rebase'
 ```
 
+#### Usage suggestions
+
+    * Ensure that rebasing isn't a bad idea
+
 ## git merge or git pull
 CWD is set to the top level of the working tree in all of the following hooks.
 
@@ -164,6 +227,9 @@ GIT_PREFIX: '',
 GIT_DIR: '.git',
 GIT_REFLOG_ACTION: '[merge [branch]|pull]'
 ```
+#### Usage suggestions
+
+    * Similar to post-checkout in usage
 
 ## git push
 CWD is set to the top level of the working tree in pre-push, however all
@@ -182,6 +248,10 @@ node .git/hooks/pre-push origin git@something:etc
 GIT_PREFIX: ''
 ```
 
+#### Usage suggestions
+
+    * Check that it's not a WIP branch (based on commit-message)
+
 ### pre-receive
 * Timing: before the first ref is updated
 * Parameters: none
@@ -193,6 +263,10 @@ GIT_PREFIX: ''
 node .git/hooks/pre-receive
 GIT_DIR: '.'
 ```
+
+#### Usage suggestions
+
+    * Check permissions on user level
 
 ### update
 * Timing: before each ref is updated (so, 2 branches or tags means it's called twice)
@@ -208,6 +282,14 @@ node .git/hooks/update refs/heads/test f3d7c49c850f9ad7559d41432496556b53599e50 
 GIT_DIR: '.'
 ```
 
+#### Usage suggestions
+
+    * Test
+    * Lint
+    * Rejecting changes that involve an upstream rebase
+    * Preventing non-fast-forward merges
+    * Check permissions on user/ref level
+
 ### post-receive
 * Timing: after the last ref is updated
 * Parameters: none
@@ -219,6 +301,12 @@ node .git/hooks/post-receive
 GIT_DIR: '.'
 ```
 
+#### Usage suggestions
+
+    * Trigger CI (build + deploy)
+    * Push to another remote
+    * Notify someone
+
 ### post-update
 * Timing: after the last ref is updated
 * Parameters
@@ -229,3 +317,7 @@ GIT_DIR: '.'
 node .git/hooks/post-update refs_1 ref_2
 GIT_DIR: '.'
 ```
+
+#### Usage suggestions
+
+    * Sync issues with Watson

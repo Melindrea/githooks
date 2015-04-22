@@ -9,7 +9,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "execsync": "0.0.6",
     "yargs": "^3.4.5"
+  },
+  "engines": {
+    "node": ">=0.12.0"
   }
 }
