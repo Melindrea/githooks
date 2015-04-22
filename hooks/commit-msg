@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 var argv = require('yargs')
-    .argv,
+        .default('env', 'dev')
+        .help('h')
+        .alias('h', 'help')
+        .epilog('Copyright 2015')
+        .example('$0 .git/COMMIT_EDITMSG message', 'commit-msg hook (stop on non-0 exit)')
+        .usage('Usage: $0 <message file name>')
+        .demand(1)
+        .argv,
     readline = require('readline'),
     rl = readline.createInterface({
         input: process.stdin,

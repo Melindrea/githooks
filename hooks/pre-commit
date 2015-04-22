@@ -20,5 +20,7 @@ console.log('__dirname:', __dirname);
 console.log(gitObject);
 
 rl.on('line', function (cmd) {
-  console.log('STIDIN: ' + cmd);
+    console.log('STIDIN: ' + cmd);
+}).on('close', function () {
+    process.exit(0);
 });

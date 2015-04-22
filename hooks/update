@@ -1,6 +1,16 @@
 #!/usr/bin/env node
 var argv = require('yargs')
-    .argv,
+        .default('env', 'prod') // Server-side hook
+        .help('h')
+        .alias('h', 'help')
+        .epilog('Copyright 2015')
+        .example(
+            '$0 refs/heads/test f3d7c49c850f9ad7559d41432496556b53599e50 b7cf9aeb4ce372c497dd0fe6057c06739a9d5bd8',
+            'update hook (stops specific refs on non-0 exit)'
+        )
+        .usage('Usage: $0 <Reference name> <old object name> <new object name>')
+        .demand(3)
+        .argv,
     readline = require('readline'),
     rl = readline.createInterface({
         input: process.stdin,

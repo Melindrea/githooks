@@ -19,9 +19,9 @@ console.log('CWD:', process.cwd());
 console.log('__dirname:', __dirname);
 console.log(gitObject);
 
+var i = 0;
 rl.on('line', function (cmd) {
     console.log('STIDIN: ' + cmd);
-    rl.close();
 }).on('close', function () {
     process.exit(0);
 });

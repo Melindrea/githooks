@@ -37,6 +37,8 @@ rl.on('line', function (refLine) {
     var refs = refLine.split(' ');
 
     // refs is now an array of the references, see specific hooks for details
+}).on('close', function () {
+    process.exit(0);
 });
 ```
 
