@@ -134,7 +134,7 @@ var fixErrors = function (file, first)
         console.log('[ERROR] Line ' + error[0] + ': ' + error[1]);
     });
 
-    // [todo] Fix that the prompt loads during the commit
+    // [fix] - Prompt should load during the commit
     if (errors.length > 0) {
         return 1;
     }
