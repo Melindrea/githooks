@@ -1,8 +1,19 @@
-var fs = require('fs'),
-sh = require('execSync').run,
-branchName = require('execSync').exec('git branch | grep \'*\' | sed \'s/* //\'').stdout.trim(),
-msgFile = process.argv[2],
-issueNumber, rePattern, matches, prefix, msg;
+#!/usr/bin/env node
+var argv = require('yargs')
+        .default('env', 'dev')
+        .help('h')
+        .alias('h', 'help')
+        .epilog('Copyright 2015')
+        .example('$0 .git/COMMIT_EDITMSG message', 'prepare-commit-msg hook (stop on non-0 exit)')
+        .usage('Usage: $0 <message file name> [message source type] [SHA1 hash]')
+        .demand(1)
+        .argv,
+    fs = require('fs'),
+    childProcess = require('child_process'),
+    sh = (argv.env === 'test' ) ? console.log : childProcess.execSync,
+    branchName = sh('git branch | grep \'*\' | sed \'s/* //\'', { encoding: 'utf8' }).trim(),
+    msgFile = argv._[0],
+    issueNumber, rePattern, matches, prefix, msg;
 
 // Don't run on rebase
 if (branchName !== '(no branch)') {
@@ -18,11 +29,14 @@ if (branchName !== '(no branch)') {
         // Prefix with branch name <branchname>
         prefix = branchName;
     }
-    msg = '[' + prefix + ']: ';
-    msg += fs.readFileSync(msgFile, 'utf8');
+    msg = fs.readFileSync(msgFile, 'utf8');
+    msg = '[' + prefix + ']: ' + msg;
     fs.writeFile(msgFile, msg, 'utf8', function (err) {
         if (err) {
             console.log(err);
+            process.exit(1);
         }
     });
 }
+
+process.exit(0);

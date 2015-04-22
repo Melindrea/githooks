@@ -1,11 +1,20 @@
-var fs = require('fs'),
-sh = require('execSync').run,
-{{!-- prompt = require('prompt'), --}}
-child_process = require('child_process'),
-branchName = require('execSync').exec('git branch | grep \'*\' | sed \'s/* //\'').stdout.trim(),
-msgFile = process.argv[2],
-errors = [], warnings = [], editor = process.env.EDITOR, editorChild,
-errorMessages = '# COMMIT MESSAGE ISSUES \n';
+#!/usr/bin/env node
+var argv = require('yargs')
+        .default('env', 'dev')
+        .help('h')
+        .alias('h', 'help')
+        .epilog('Copyright 2015')
+        .example('$0 .git/COMMIT_EDITMSG', 'commit-msg hook (stop on non-0 exit)')
+        .usage('Usage: $0 <message file name>')
+        .demand(1)
+        .argv,
+    fs = require('fs'),
+    childProcess = require('child_process'),
+    sh = (argv.env === 'test' ) ? console.log : childProcess.execSync,
+    branchName = sh('git branch | grep \'*\' | sed \'s/* //\'', { encoding: 'utf8' }).trim(),
+    msgFile = argv._[0],
+    errors = [], warnings = [], editor = process.env.EDITOR, editorChild,
+    errorMessages = '# COMMIT MESSAGE ISSUES \n';
 
 var checkLine = function (line, lineNumber)
 {
@@ -95,7 +104,7 @@ var checkFile = function (file)
 var errorFunction = function (err)
 {
     console.log(err);
-    return -1;
+    return 1;
 };
 
 var fixErrors = function (file, first)
@@ -127,7 +136,7 @@ var fixErrors = function (file, first)
 
     // [todo] Fix that the prompt loads during the commit
     if (errors.length > 0) {
-        return -1;
+        return 1;
     }
     // prompt.start();
     // prompt.get(
