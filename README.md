@@ -3,10 +3,10 @@
 In most cases, the action will be cancelled if you exit the process with
 non-zero, `process.exit(1);`.
 
-This is based on the excellent work by [Daniel Convissor](http://www.analysisandsolutions.com/code/git-hooks-summary-cheat-sheet.htm)
+This is based on the excellent work by [Justin Ellingwood](https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks)
 and [Mark Longair](http://longair.net/blog/2011/04/09/missing-git-hooks-documentation/),
 but tweaked to test using nodejs rather than bash. Another good source for
-information is [Atlassian's githooks tutorial](https://www.atlassian.com/git/tutorials/git-hooks/local-hooks)
+information is [Atlassian's githooks tutorial](https://www.atlassian.com/git/tutorials/git-hooks/local-hooks).
 
 As I have never used `git am`, the hooks explored do not include `applypatch-msg`,
 `pre-applypatch` or `post-apply-patch`.

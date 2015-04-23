@@ -1,6 +1,12 @@
 #!/usr/bin/env node
-var argv = require('yargs')
-    .argv,
+var argv = require('yargs'
+        .default('env', 'prod') // Server-side hook
+        .help('h')
+        .alias('h', 'help')
+        .epilog('Copyright 2015')
+        .example('$0', 'pre-receive hook (stop on non-0 exit), STDIN gets refs: [remote sha1] [local sha1] [local ref]')
+        .usage('Usage: $0')
+        .argv,
     readline = require('readline'),
     rl = readline.createInterface({
         input: process.stdin,

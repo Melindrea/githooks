@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 var argv = require('yargs')
-    .argv,
+        .default('env', 'dev')
+        .help('h')
+        .alias('h', 'help')
+        .epilog('Copyright 2015')
+        .example('$0', 'pre-auto-gc hook (stop on non-0 exit)')
+        .argv,
     readline = require('readline'),
     rl = readline.createInterface({
         input: process.stdin,
