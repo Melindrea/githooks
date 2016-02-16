@@ -31,7 +31,7 @@ if (branchName !== '(no branch)') {
     }
     msg = fs.readFileSync(msgFile, 'utf8');
     msg = '[' + prefix + ']: ' + msg;
-    fs.writeFile(msgFile, msg, 'utf8', function (err) {
+    fs.writeFileSync(msgFile, msg, 'utf8', function (err) {
         if (err) {
             console.log(err);
             process.exit(1);
